@@ -1,0 +1,188 @@
+<?php ini_set('pcre.backtrack_limit', '2000000000'); ?>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<style type="text/css" media="print">
+    body {
+        font-family: 'nikosh', sans-serif;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 1px;
+        table-layout: fixed;
+
+        border: 1px solid black;
+        font-family: 'nikosh', sans-serif;
+    }
+
+    th {
+        text-align: center;
+        padding: 1px;
+        font-weight: normal;
+        font-size: 19px;
+        border: 1px solid black;
+    }
+
+    td {
+
+        border: 1px solid black;
+        padding: 5px 2px 5px 12px;
+
+    }
+
+    p {
+        font-size: 17px;
+
+    }
+
+    #maintable {
+        font-family: nikosh, sans-serif;
+        table-layout: fixed;
+        width: 100%;
+        border: 0px solid black;
+    }
+
+    #maintable td {
+        text-align: left;
+        padding: 2px;
+        font-size: 12px;
+        border: 0px solid black;
+    }
+</style>
+
+<body>
+    <?php
+
+    ?>
+    <table id="maintable">
+        <tr>
+            <td width="20%"> <img style="width:100px;height:100px;" src="/logo-sm.png"></td>
+            <td width="70%" style="text-align:center;">
+                <h1 style="font-size: 27px;">Teachers Wellfare Trust</h1>
+                {{-- <h2 style="font-size: 23px;"> BANDARBAN , CHATTOGRAM</h2> --}}
+                <h2 style="font-size: 23px;font-weight:400">Government of the People's Republic of Bangladesh</h2>
+
+                <br>
+                <br>
+                <h2 style="font-size: 23px;font-weight:400">{{$reportTitle}}</h2>
+                <p style="text-decoration: underline">{{$reportFilteredBy}}</p>
+            </td>
+
+        </tr>
+        <tr>
+            <td width="20%"></td>
+            <td width="60%" style="text-align:center;">
+
+
+            </td>
+            <td width="20%" style="text-align:right;">
+                <p>Date : {{ date('d-m-Y', time() - 6 * 3600) }} </p>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+
+    <table>
+        <THEAD>
+            <tr>
+                <th style="width: 5%">SL</th>
+                <th style="width: 10%" >Member Id</th>
+                <th style="width: 15%" >Name </th>
+                <th  style="width: 12%">Designation</th>
+                <th style="width: 10%">
+                    District
+                </th>
+                <th style="width: 10%">
+                    Upazila
+                </th>
+                <th style="width: 10%">School Name
+
+                </th>
+                <th style="width: 10%">
+                   Type
+                </th>
+                <th style="width: 10%">
+                   Details
+                </th>
+                <th style="width: 10%">
+                   Requested For
+                </th>
+                <th style="width: 10%">
+                   Relation
+                </th>
+                
+                <th style="width: 10%">
+                   Requested Amount
+                </th>
+                
+                <th style="width: 10%">Status
+                </th>
+                
+
+
+            </tr>
+        </THEAD>
+        <TBODY>
+            <?php $i = 1; ?>
+
+
+
+            @foreach ($users as $employee)
+                <tr>
+
+                    
+                    @if ($employee->user->id == 1)
+                        @continue
+                    @endif
+
+                    <td>{{ $i++ }}</td>
+                    <td>{{ $employee->user->uid }}</td>
+                    <td>{{ $employee->user->name }}</td>
+                    <td> {{ $employee->user->designation }}
+                    </td> <td>{{ $employee->user->subDistrict->district->e_name }}</td>
+                    </td> <td>{{ $employee->user->subDistrict->e_name }}</td>
+                    <td>{{ $employee->user->school_name}}</td>
+                    <td>
+                        @if ($employee->type == 1)
+                            Medical Aid
+                        @elseif ($employee->type == 2)
+                            Scholarship
+                        @else
+                            Other
+                        @endif
+                    </td>
+                    <td>{{ $employee->details }}</td>
+                    <td>{{ $employee->requested_for_name }}</td>
+                    <td>{{ $employee->relation }}</td>
+                    <td>{{ $employee->requested_amount }}</td>
+                    <td>
+                        @if ($employee->status == 0)
+                            <span style="font-weight: bold; color: black;">Pending</span>
+                        @elseif ($employee->status == 1)
+                            <span style="font-weight: bold; color: green;">Accepted</span>
+                        @elseif ($employee->status == 2)
+                            <span style="font-weight: bold; color: red;">Rejected</span>
+                        @else
+                            <span style="font-weight: normal; color: gray;">Unknown</span>
+                        @endif
+                    </td>
+
+                    {{-- <td>{{ $employee->postings->first()?->designation }} <br> {{ Carbon\Carbon::parse($employee->postings->first()?->from_date)->format('d-m-Y') }}</td>
+                    <td>{{ $employee->postings->last()?->designation }} <br> {{ Carbon\Carbon::parse($employee->postings->last()?->from_date)->format('d-m-Y') }}</td>
+                    <td>{{ Carbon\Carbon::parse($employee->info->prlLprDate)->format('d-m-Y') }}</td>
+                    <td>
+                      </td> --}}
+                </tr>
+            @endforeach
+        </TBODY>
+    </table>
+
+</body>
+
+</html>
